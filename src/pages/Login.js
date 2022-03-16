@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Carregando from '../componets/Carregando';
 import { createUser } from '../services/userAPI';
 
+// Atualizando.
 class Login extends React.Component {
   constructor(props) {
     super(props);
