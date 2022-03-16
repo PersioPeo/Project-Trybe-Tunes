@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import Carregando from './Carregando';
 
@@ -37,6 +38,34 @@ class Header extends React.Component {
       return (
         <header data-testid="header-component">
           <h1>Cabeçalho</h1>
+          <nav>
+            <ul>
+              <li>
+                <Link
+                  data-testid="link-to-search"
+                  to="/search"
+                >
+                  Pesquisar
+                </Link>
+              </li>
+              <li>
+                <Link
+                  data-testid="link-to-favorites"
+                  to="/favorites"
+                >
+                  Favoritas
+                </Link>
+              </li>
+              <li>
+                <Link
+                  data-testid="link-to-profile"
+                  to="/profile"
+                >
+                  Perfil
+                </Link>
+              </li>
+            </ul>
+          </nav>
           <section data-testid="header-user-name">
             {loading
               ? <Carregando />
