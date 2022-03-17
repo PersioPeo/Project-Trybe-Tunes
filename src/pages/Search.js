@@ -41,19 +41,19 @@ class Search extends React.Component {
     const { botao, cantor } = this.state;
     return (
       <section>
-        <form onSubmit={ (e) => e.preventDefault() }>
+        <form onSubmit={(e) => e.preventDefault()}>
           <input
             data-testid="search-artist-input"
             type="text"
-            value={ cantor }
+            value={cantor}
             name="cantor"
-            onChange={ onInputChange }
+            onChange={onInputChange}
           />
           <input
             data-testid="search-artist-button"
             type="button"
             value="Pesquisar"
-            disabled={ botao }
+            disabled={botao}
           />
 
         </form>
@@ -76,5 +76,6 @@ class Search extends React.Component {
     );
   }
 }
+// atualizar
 
 export default Search;
