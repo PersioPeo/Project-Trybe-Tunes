@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Carregando from '../componets/Carregando';
 import Header from '../componets/Header';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends React.Component {
   constructor(props) {
@@ -9,11 +11,15 @@ class Search extends React.Component {
       botao: true,
       loading: false,
       cantor: '',
-
+      resultadoDeAlbuns: [],
+      artistaProcurado: '',
+      final: false,
     };
   } // fim do constructor
 
   // inicio de funções
+  onSaveButtonClick = () => this.setState((prevState) => ({ cantor: prevState.cantor }));
+
   onInputChange = ({ target }) => {
     const { name } = target;
     const { value } = target;
@@ -36,24 +42,76 @@ class Search extends React.Component {
     );
   }
 
+  buscarAlbum = async (artista) => {
+    const listaDeAlbum = await searchAlbumsAPI(artista);
+    this.setState(
+      {
+        loading: true,
+      },
+      async () => {
+        this.setState({
+          loading: false,
+          resultadoDeAlbuns: listaDeAlbum,
+          cantor: '',
+          artistaProcurado: artista,
+          final: true,
+        });
+      },
+    );
+  }// fim de buscar buscarAlbum
+
+  linkAlbum = () => {
+    const { resultadoDeAlbuns, artistaProcurado } = this.state;
+    return (
+      <div>
+        Resultado de álbuns de:
+        {' '}
+        {artistaProcurado}
+        <ul>
+          {resultadoDeAlbuns.map(({ collectionName, collectionId }, index) => (
+            <li key={ index }>
+              <Link
+                data-testid={ `link-to-album-${collectionId}` }
+                to={ `/album/${collectionId}` }
+              >
+                {collectionName}
+              </Link>
+            </li>))}
+        </ul>
+      </div>
+    );
+  } // fim da função linkAlbum
+
+  respAlbum = () => {
+    const { resultadoDeAlbuns } = this.state;
+    const resultDeAlbuns = resultadoDeAlbuns.length !== 0;
+    if (resultDeAlbuns) {
+      return (this.linkAlbum());
+    }
+    return (
+      <span>Nenhum álbum foi encontrado</span>
+    );
+  }
+
   fomrRender = () => {
-    const { onInputChange } = this;
+    const { onInputChange, buscarAlbum } = this;
     const { botao, cantor } = this.state;
     return (
       <section>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={ (e) => e.preventDefault() }>
           <input
             data-testid="search-artist-input"
             type="text"
-            value={cantor}
+            value={ cantor }
             name="cantor"
-            onChange={onInputChange}
+            onChange={ onInputChange }
           />
           <input
             data-testid="search-artist-button"
             type="button"
             value="Pesquisar"
-            disabled={botao}
+            disabled={ botao }
+            onClick={ () => buscarAlbum(cantor) }
           />
 
         </form>
@@ -64,14 +122,14 @@ class Search extends React.Component {
 
   // fim das funções
   render() {
-    const { loading } = this.state;
+    const { loading, final } = this.state;
     return (
       <div data-testid="page-search">
         <Header />
         <h2>Pagina de search</h2>
 
         {loading ? <Carregando /> : this.fomrRender()}
-
+        {final && this.respAlbum()}
       </div>
     );
   }
