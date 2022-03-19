@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Carregando from '../componets/Carregando';
+import Carregando from '../components/Carregando';
 import { createUser } from '../services/userAPI';
 
 // Atualizando.
