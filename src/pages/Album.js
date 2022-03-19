@@ -47,8 +47,8 @@ class Album extends React.Component {
       <div>
         <MusicCard
           listaDeMusica={ listaDeMusica }
-          cantor={ artistName }
-          nomeDoAlbum={ albumName }
+          artistName={ artistName }
+          albumName={ albumName }
         />
       </div>
     );
