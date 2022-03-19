@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import Carregando from './Carregando';
-import { addSong, removeSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
   constructor(props) {
@@ -12,7 +12,22 @@ class MusicCard extends React.Component {
     };
   } // fim do constructor
 
+  componentDidMount() {
+    this.pegarMusicasFavoritas();
+  }
   // inicio de funções
+
+  pegarMusicasFavoritas = async () => {
+    const favoritas = await getFavoriteSongs();
+    favoritas.forEach((element) => {
+      const { trackId } = element;
+      const musica = document.getElementById(`checkbox-music-${trackId}`);
+      if (musica) {
+        musica.checked = true;
+      }
+    });
+  }
+
   favoritarMusicas = async (event, id) => {
     const { checked } = event.target;
     const { listaDeMusica } = this.props;
