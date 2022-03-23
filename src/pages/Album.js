@@ -42,7 +42,6 @@ class Album extends React.Component {
 
   renderisaMusicas = () => {
     const { listaDeMusica, artistName, albumName } = this.state;
-
     return (
       <div>
         <MusicCard

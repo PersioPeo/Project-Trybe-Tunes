@@ -6,8 +6,10 @@ import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongs
 class MusicCard extends React.Component {
   constructor(props) {
     super(props);
+    const { listaDeMusica } = this.props;
     this.state = {
       loading: false,
+      listaDeMusica,
 
     };
   } // fim do constructor
@@ -30,8 +32,9 @@ class MusicCard extends React.Component {
 
   favoritarMusicas = async (event, id) => {
     const { checked } = event.target;
-    const { listaDeMusica } = this.props;
+    const { listaDeMusica } = this.state;
     const musicSelec = listaDeMusica.find((item) => item.trackId === id);
+    const novaMusicSelec = listaDeMusica.find((item) => item.trackId !== id);
     this.setState({ loading: true });
     if (checked) {
       await addSong(musicSelec);
@@ -43,7 +46,7 @@ class MusicCard extends React.Component {
   // fim de funções
 
   render() {
-    const { listaDeMusica, cantor, nomeDoAlbum } = this.props;
+    const { listaDeMusica, artistName, albumName } = this.props;
     const { loading } = this.state;
 
     return (
@@ -52,12 +55,12 @@ class MusicCard extends React.Component {
           <h1 data-testid="album-name">
             {' '}
             Collection Name
-            {nomeDoAlbum}
+            {albumName}
           </h1>
           <h2 data-testid="artist-name">
             Artist Name
             {' '}
-            {cantor}
+            {artistName}
           </h2>
         </div>
         <ul>
@@ -91,7 +94,7 @@ class MusicCard extends React.Component {
 
 MusicCard.propTypes = {
   listaDeMusica: propTypes.string,
-  cantor: propTypes.string,
+  artistName: propTypes.string,
   albumName: propTypes.string,
   music: propTypes.objectOf(propTypes.any),
 }.isRequired;
