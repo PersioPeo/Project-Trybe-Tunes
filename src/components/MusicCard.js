@@ -6,10 +6,10 @@ import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongs
 class MusicCard extends React.Component {
   constructor(props) {
     super(props);
-    const { listaDeMusica } = this.props;
+    const { arrayMusics } = this.props;
     this.state = {
       loading: false,
-      listaDeMusica,
+      arrayFavorita: arrayMusics,
 
     };
   } // fim do constructor
@@ -30,14 +30,18 @@ class MusicCard extends React.Component {
     });
   }
 
-  favoritarMusicas = async (event, id) => {
+  favoritarMusicas = async (event, trackId) => {
     const { checked } = event.target;
-    const { listaDeMusica } = this.state;
-    const musicSelec = listaDeMusica.find((item) => item.trackId === id);
-    const novaMusicSelec = listaDeMusica.find((item) => item.trackId !== id);
+    const { arrayFavorita } = this.state;
+    const { favorites } = this.props;
+    const musicSelec = arrayFavorita.find((item) => item.trackId === trackId);
+    const novaMusicSelec = arrayFavorita.filter((item) => item.trackId !== trackId);
     this.setState({ loading: true });
     if (checked) {
       await addSong(musicSelec);
+    } else if (favorites) {
+      await removeSong(musicSelec);
+      this.setState({ arrayFavorita: novaMusicSelec });
     } else {
       await removeSong(musicSelec);
     }
@@ -46,8 +50,8 @@ class MusicCard extends React.Component {
   // fim de funções
 
   render() {
-    const { listaDeMusica, artistName, albumName } = this.props;
-    const { loading } = this.state;
+    const { artistName, albumName } = this.props;
+    const { loading, arrayFavorita } = this.state;
 
     return (
       <section>
@@ -64,7 +68,7 @@ class MusicCard extends React.Component {
           </h2>
         </div>
         <ul>
-          {listaDeMusica.map(({ trackName, previewUrl, trackId }, index) => (
+          {arrayFavorita.map(({ trackName, previewUrl, trackId }, index) => (
             <li key={ index }>
               <h4 data-testid="music-name">{trackName}</h4>
               <audio data-testid="audio-component" src={ previewUrl } controls>
@@ -93,7 +97,7 @@ class MusicCard extends React.Component {
 }// fim de class
 
 MusicCard.propTypes = {
-  listaDeMusica: propTypes.string,
+  arrayFavorita: propTypes.string,
   artistName: propTypes.string,
   albumName: propTypes.string,
   music: propTypes.objectOf(propTypes.any),

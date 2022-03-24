@@ -12,7 +12,7 @@ class Album extends React.Component {
       loading: false,
       artistName: '',
       albumName: '',
-      listaDeMusica: [],
+      arrayMusics: [],
     };
   }// fim do constructor
 
@@ -31,21 +31,21 @@ class Album extends React.Component {
         this.setState(
           {
             loading: false,
-            listaDeMusica: musicasOk,
+            arrayMusics: musicasOk,
             artistName: musicasOk[0].artistName,
-            albumName: musicasOk[0].collectionName,
+            albumName: musicasOk[0].albumName,
           },
         );
       },
     );
   } // fim requisitaMusica
 
-  renderisaMusicas = () => {
-    const { listaDeMusica, artistName, albumName } = this.state;
+  passarParaMusicCard = () => {
+    const { arrayMusics, artistName, albumName } = this.state;
     return (
       <div>
         <MusicCard
-          listaDeMusica={ listaDeMusica }
+          arrayMusics={ arrayMusics }
           artistName={ artistName }
           albumName={ albumName }
         />
@@ -60,7 +60,7 @@ class Album extends React.Component {
       <div data-testid="page-album">
         <Header />
         <h2>Pagina de Album</h2>
-        {loading ? <Carregando /> : this.renderisaMusicas()}
+        {loading ? <Carregando /> : this.passarParaMusicCard()}
       </div>
     );
   }

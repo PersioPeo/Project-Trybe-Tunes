@@ -1,5 +1,7 @@
 import React from 'react';
+import Carregando from '../components/Carregando';
 import Header from '../components/Header';
+import MusicCard from '../components/MusicCard';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Favorites extends React.Component {
@@ -18,6 +20,27 @@ class Favorites extends React.Component {
   }
 
   // inicio das funções
+  passaParaMusicCard = () => {
+    const { arrayMusics, artistName, albumName } = this.state;
+    return (
+      <MusicCard
+        favorites
+        arrayMusics={ arrayMusics }
+        artistName={ artistName }
+        albumName={ albumName }
+      />
+    );
+  }
+
+  renderTela = () => {
+    const { loading } = this.state;
+    return (
+      <div>
+        {loading ? <Carregando /> : this.passaParaMusicCard()}
+      </div>
+    );
+  }
+
   pegaMusicaFavorita = async () => {
     this.setState(
       { loading: true },
@@ -35,12 +58,11 @@ class Favorites extends React.Component {
 
   // fim das funções
   render() {
-    const { arrayMusics } = this.state;
-    console.log(arrayMusics);
     return (
       <div data-testid="page-favorites">
         <Header />
         <h2>Pagina de favorites</h2>
+        {this.renderTela()}
       </div>
     );
   }// fim do render
