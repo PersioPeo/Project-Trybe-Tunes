@@ -11,3 +11,16 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+# O que foi desenvolvido:
+
+## - Neste projeto criado o TrybeTunes, uma aplicação capaz de reproduzir músicas das mais variadas bandas e artistas, criar uma lista de músicas favoritas e editar o perfil da pessoa usuária logada. Essa aplicação será capaz de:
+
+    - 1 - Fazer login;
+    - 2 - Pesquisar por uma banda ou artista;
+    - 3 - Listar os álbuns disponíveis dessa banda ou artista;
+    - 4 - Visualizar as músicas de um álbum selecionado;
+    - 5 - Reproduzir uma prévia das músicas deste álbum;
+    - 6 - Favoritar e desfavoritar músicas;
+    - 7 - Ver a lista de músicas favoritas;
+    - 8 - Ver o perfil da pessoa logada;
+    - 9 - Editar o perfil da pessoa logada;
